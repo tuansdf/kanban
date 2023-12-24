@@ -1,4 +1,4 @@
-import { KanbanBoard } from "~/components/KanbanBoard.tsx";
+import { KanbanBoardWithSortable } from "~/components/KanbanBoardWithSortable.tsx";
 import classes from "./app.module.scss";
 
 function App() {
@@ -7,7 +7,7 @@ function App() {
       <div className={classes["header-container"]}>Kanban</div>
 
       <div className={classes["body-container"]}>
-        <KanbanBoard />
+        <KanbanBoardWithSortable />
       </div>
     </div>
   );

@@ -1,11 +1,11 @@
 import { closestCenter, DndContext, DragEndEvent } from "@dnd-kit/core";
 import { restrictToHorizontalAxis } from "@dnd-kit/modifiers";
 import { horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortable";
-import { KanbanLane } from "~/components/KanbanLane.tsx";
+import { KanbanLaneSortable } from "~/components/KanbanLaneSortable.tsx";
 import { useCardStore } from "~/stores/kanban-stores.ts";
 import { ArrayUtils } from "~/utils/array-utils.ts";
 
-export const KanbanBoard = () => {
+export const KanbanBoardWithSortable = () => {
   const { lanes, setLanes } = useCardStore();
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -23,7 +23,7 @@ export const KanbanBoard = () => {
       <SortableContext items={lanes} strategy={horizontalListSortingStrategy}>
         {lanes.map((lane) => {
           if (!lane) return null;
-          return <KanbanLane key={lane.id} id={lane.id} title={lane.title} cards={lane.cards} />;
+          return <KanbanLaneSortable key={lane.id} id={lane.id} title={lane.title} cards={lane.cards} />;
         })}
       </SortableContext>
     </DndContext>

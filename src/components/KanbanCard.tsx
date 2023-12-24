@@ -1,30 +1,26 @@
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { ReactNode } from "react";
+import { Avatar } from "antd";
+import { ComponentProps, forwardRef } from "react";
 import classes from "./kanban-card.module.scss";
 
-type Props = {
-  id: string | number;
+export type KanbanCardProps = {
   title: string;
-  users: ReactNode;
-};
+  users: string[];
+} & ComponentProps<"div">;
 
-export const KanbanCard = ({ title, users, id }: Props) => {
-  const { listeners, attributes, setNodeRef, transform, transition } = useSortable({
-    id,
-  });
-  const style = transform
-    ? {
-        transform: CSS.Translate.toString(transform),
-        transition,
-      }
-    : undefined;
-
+export const KanbanCard = forwardRef<HTMLDivElement, KanbanCardProps>(({ title, users, ...restProps }, ref) => {
   return (
-    <div className={classes["container"]} ref={setNodeRef} {...listeners} {...attributes} style={style}>
+    <div className={classes["container"]} ref={ref} {...restProps}>
       <h3 className={classes["title"]}>{title}</h3>
 
-      <div className={classes["footer"]}>{users}</div>
+      <div className={classes["footer"]}>
+        {
+          <Avatar.Group>
+            {users.map((name, index) => {
+              return <Avatar key={index}>{name}</Avatar>;
+            })}
+          </Avatar.Group>
+        }
+      </div>
     </div>
   );
-};
+});
