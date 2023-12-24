@@ -1,0 +1,23 @@
+.container {
+  padding: 0.5rem;
+  cursor: pointer;
+  transition-property: background-color;
+  transition-duration: 50ms;
+  transition-timing-function: ease-in;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  > .title {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 1.125rem;
+  }
+
+  > .cards {
+    > * + * {
+      margin-top: 0.5rem;
+    }
+  }
+}

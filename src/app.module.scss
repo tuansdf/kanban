@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100svh;
+}
+
+.header-container {
+  padding: 1.5rem;
+  background-color: white;
+}
+
+.body-container {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 20rem);
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.1);
+}
