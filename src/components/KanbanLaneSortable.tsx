@@ -1,5 +1,5 @@
-import { closestCenter, DndContext, DragEndEvent } from "@dnd-kit/core";
-import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { DragEndEvent, DragOverEvent } from "@dnd-kit/core";
+import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { KanbanCardSortable } from "~/components/KanbanCardSortable.tsx";
 import { KanbanLane, KanbanLaneProps } from "~/components/KanbanLane.tsx";
@@ -8,7 +8,7 @@ import { Card } from "~/types/kanban-types.ts";
 import { ArrayUtils } from "~/utils/array-utils.ts";
 
 type Props = {
-  id: string | number;
+  id: string;
   cards: Card[];
 } & Pick<KanbanLaneProps, "title">;
 
@@ -22,7 +22,11 @@ export const KanbanLaneSortable = ({ id, title, cards }: Props) => {
     setNodeRef: setDraggableNodeRef,
   } = useSortable({
     id,
+    data: {
+      type: "lane",
+    },
   });
+
   const style = transform
     ? {
         transform: CSS.Translate.toString(transform),
@@ -33,6 +37,8 @@ export const KanbanLaneSortable = ({ id, title, cards }: Props) => {
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
+    console.log({ dragEndCard: event });
+
     if (active.id !== over?.id) {
       const oldIndex = cards.findIndex((card) => card.id === active.id);
       const newIndex = cards.findIndex((card) => card.id === over?.id);
@@ -40,21 +46,25 @@ export const KanbanLaneSortable = ({ id, title, cards }: Props) => {
     }
   };
 
+  const handleDragOver = (event: DragOverEvent) => {
+    console.log({ dragOverCard: event });
+  };
+
   return (
-    <DndContext
-      collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
-      onDragOver={(e) => {
-        console.log({ e });
-      }}
-    >
-      <SortableContext items={cards} strategy={verticalListSortingStrategy}>
-        <KanbanLane title={title} {...listeners} {...attributes} style={style} ref={setDraggableNodeRef}>
-          {cards?.map((card) => {
-            return <KanbanCardSortable key={card.id} id={card.id} title={card.title} users={card.users} />;
-          })}
-        </KanbanLane>
-      </SortableContext>
-    </DndContext>
+    <SortableContext id={id} items={cards}>
+      <KanbanLane
+        title={title}
+        {...listeners}
+        {...attributes}
+        style={undefined}
+        ref={(e) => {
+          setDraggableNodeRef(e);
+        }}
+      >
+        {cards?.map((card) => {
+          return <KanbanCardSortable key={card.id} id={card.id} title={card.title} users={card.users} />;
+        })}
+      </KanbanLane>
+    </SortableContext>
   );
 };

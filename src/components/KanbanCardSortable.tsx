@@ -9,6 +9,9 @@ type Props = {
 export const KanbanCardSortable = ({ title, users, id }: Props) => {
   const { listeners, attributes, setNodeRef, transform, transition } = useSortable({
     id,
+    data: {
+      type: "card",
+    },
   });
   const style = transform
     ? {

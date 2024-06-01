@@ -1,11 +1,11 @@
 export type Card = {
-  id: number | string;
+  id: string;
   title: string;
   users: string[];
 };
 
 export type Lane = {
-  id: number | string;
+  id: string;
   title: string;
   cards: Card[];
 };
