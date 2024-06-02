@@ -20,5 +20,9 @@ export const KanbanCardSortable = ({ title, users, id }: Props) => {
       }
     : undefined;
 
-  return <KanbanCard title={title} users={users} ref={setNodeRef} {...listeners} {...attributes} style={style} />;
+  return (
+    <div ref={setNodeRef} {...listeners} {...attributes}>
+      <KanbanCard title={title} users={users} style={style} />
+    </div>
+  );
 };
